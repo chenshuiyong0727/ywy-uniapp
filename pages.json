@@ -1,0 +1,426 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "和家健脑"
+        // #ifdef APP-PLUS
+        ,
+        "enablePullDownRefresh": true
+        // #endif
+      }
+    },
+    // {
+    // 	"path" : "pages/archives/index",
+    // 	"style" :                                                                                    
+    // 	{
+    // 		"navigationBarTitleText": "健康档案",
+    // 		"enablePullDownRefresh": false
+    // 	}	
+    // },
+    {
+      "path": "pages/my/index",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/my/intelligence-evaluation-order",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查记录",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/my/exercise-order",
+      "style": {
+        "navigationBarTitleText": "趣味健脑订单记录",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/my/micromotion-order",
+      "style": {
+        "navigationBarTitleText": "健脑运动订单记录",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/order/address-manage",
+      "style": {
+        "navigationBarTitleText": "地址管理",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/order/add-address",
+      "style": {
+        "navigationBarTitleText": "新增地址",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/order/index",
+      "style": {
+        "navigationBarTitleText": "我的订单",
+        "enablePullDownRefresh": false,
+        "onReachBottomDistance": 0
+      }
+    },
+    {
+      "path": "pages/order/detail",
+      "style": {
+        "navigationBarTitleText": "订单详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/order/lock-report-detail",
+      "style": {
+        "navigationBarTitleText": "订单详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/order/send-back-explain",
+      "style": {
+        "navigationBarTitleText": "填写物流信息",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/exercise/begin",
+      "style": {
+        "navigationBarTitleText": "趣味健脑",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/exercise/list",
+      "style": {
+        "navigationBarTitleText": "趣味健脑",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/exercise/open-service-package",
+      "style": {
+        "navigationBarTitleText": "开通服务包",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/exercise/detail",
+      "style": {
+        "navigationBarTitleText": "趣味健脑",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/exercise/result",
+      "style": {
+        "navigationBarTitleText": "趣味健脑",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/agreement/reg",
+      "style": {
+        "navigationBarTitleText": "用户注册协议",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/agreement/pay",
+      "style": {
+        "navigationBarTitleText": "用户付款协议",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/register/index",
+      "style": {
+        "navigationBarTitleText": "注册成功",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/improve-infomation/index",
+      "style": {
+        "navigationBarTitleText": "完善信息",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/account-setting/index",
+      "style": {
+        "navigationBarTitleText": "账号设置",
+        "enablePullDownRefresh": false
+      }
+    },
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/account-setting/cancel",
+      "style": {
+        "navigationBarTitleText": "账号注销",
+        "enablePullDownRefresh": false
+      }
+    },
+    // #endif
+    {
+      "path": "pages/feedback/index",
+      "style": {
+        "navigationBarTitleText": "意见反馈",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/verify-code/index",
+      "style": {
+        "navigationBarTitleText": "认证码",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/micromotion/begin",
+      "style": {
+        "navigationBarTitleText": "健脑运动",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/micromotion/list",
+      "style": {
+        "navigationBarTitleText": "健脑运动",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/micromotion/open-service-package",
+      "style": {
+        "navigationBarTitleText": "健脑运动",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/micromotion/detail",
+      "style": {
+        "navigationBarTitleText": "健脑运动详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/archives/record-list",
+      "style": {
+        "navigationBarTitleText": "认知记录",
+        "enablePullDownRefresh": false
+      }
+    },
+    
+    // {
+    //   "path": "pages/health-class/index",
+    //   "style": {
+    //     "navigationBarTitleText": "健康课堂",
+    //     "enablePullDownRefresh": false
+    //   }
+    // },
+    // {
+    //   "path": "pages/health-class/detail",
+    //   "style": {
+    //     "navigationBarTitleText": "健康课堂",
+    //     "enablePullDownRefresh": false
+    //   }
+    // },
+    {
+      "path": "pages/evaluation/explain",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查说明",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/sort",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/result",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查结果",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/detail",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/artificial",
+      "style": {
+        "navigationBarTitleText": "认知评估",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/quick-sieve-record",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查记录",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/health-guid",
+      "style": {
+        "navigationBarTitleText": "推荐锻炼",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/lock-report",
+      "style": {
+        "navigationBarTitleText": "筛查报告",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/evaluation/evaluation-list",
+      "style": {
+        "navigationBarTitleText": "认知障碍筛查列表",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cognitive-training/guid",
+      "style": {
+        "navigationBarTitleText": "认知症数字疗法",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cognitive-training/recommend",
+      "style": {
+        "navigationBarTitleText": "认知症数字疗法",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cognitive-training/no-recommendation",
+      "style": {
+        "navigationBarTitleText": "认知症数字疗法",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cognitive-training/detail",
+      "style": {
+        "navigationBarTitleText": "训练详情页",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cognitive-training/can-not-train",
+      "style": {
+        "navigationBarTitleText": "认知症数字疗法",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/consulting-service/index",
+      "style": {
+        "navigationBarTitleText": "咨询专家",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/consulting-service/entry",
+      "style": {
+        "navigationBarTitleText": "咨询专家",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/consulting-service/appointment",
+      "style": {
+        "navigationBarTitleText": "咨询专家预约",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/article/detail",
+      "style": {
+        "navigationBarTitleText": "文章详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/pre-pay/index",
+      "style": {
+        "navigationBarTitleText": "支付选择页",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/web-view/web-view",
+      "style": {
+        "navigationBarTitleText": "和家健脑",
+        "enablePullDownRefresh": false
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#43C9A7",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [{
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/com/home.png",
+        "selectedIconPath": "static/images/com/home_select.png",
+        "text": "首页"
+      },
+      // {
+      // 	"pagePath": "pages/archives/index",
+      // 	"iconPath": "static/images/com/archives.png",
+      // 	"selectedIconPath": "static/images/com/archives_select.png",
+      // 	"text": "健康档案"
+      // },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "static/images/com/my.png",
+        "selectedIconPath": "static/images/com/my_select.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "globalStyle": {
+   
+    "rpxCalcMaxDeviceWidth": 600,
+    "rpxCalcBaseDeviceWidth": 600,
+    "rpxCalcIncludeWidth": 600,
+    
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "和家健脑门户网站",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "onReachBottomDistance": 50,
+    "navigationStyle": "custom",
+    "pageOrientation": "auto",
+    "mp-weixin": {
+      "resizable": false
+    }
+  },
+  "uniIdRouter": {}
+}

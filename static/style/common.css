@@ -1,0 +1,81 @@
+html,
+body {
+  background-color: #F3F4F5;
+  color: #2e2f30;
+  font-family: 'microsoft yahei', "黑体", "Source Sans Pro", arial, sans-serif;
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  /* height: auto !important; */
+  min-height: 100%;
+}
+
+body {
+  overflow-x: initial;
+  /* IOS禁止微信调整字体大小 */
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+}
+
+html {
+  overflow: auto;
+}
+
+/*0.5px的线条*/
+.brToHalf,
+.brToHalfTop {
+  position: relative;
+}
+
+.brToHalf::before {
+  content: '';
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 0;
+  border-bottom: 1px solid #E5E5E5;
+  transform: scaleY(0.5);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.brToHalfTop::before {
+  content: '';
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 0;
+  border-top: 1px solid #E5E5E5;
+  transform: scaleY(0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+}
+
+.picker-placeholder {
+  font-size: 16.11rpx;
+  color: #C9C9C9;
+}
+.uni-input-placeholder {
+  font-size: 16.11rpx;
+  color: #C9C9C9;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none;
+  background: transparent;
+  color: transparent;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
