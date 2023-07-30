@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import { myRequest } from '@/utils/request.js' // 引入api文件
+import { request } from '@/utils/request.js' // 引入api文件
 import { envSetting } from '@/utils/env.js'
-import { formatTime } from '@/utils/util.js'
+import { formatTime ,navigateTo,toast,goBack} from '@/utils/util.js'
 
 // #ifdef H5
 import "@/utils/iosNoScale.js"
@@ -22,8 +22,12 @@ Vue.use(networkTip)
 
 Vue.filter('formatTime', formatTime)
 
-Vue.prototype.$request = myRequest // 挂载到原型上
-Vue.prototype.$imgPrefix = envSetting.imgPrefix
+Vue.prototype.$navigateTo = navigateTo // 挂载到原型上
+Vue.prototype.$request = request // 挂载到原型上
+Vue.prototype.$fileUrl = envSetting.fileUrl
+Vue.prototype.$toast = toast // 挂载到原型上
+Vue.prototype.$goBack = goBack // 挂载到原型上
+
 
 // 判断是否是平板
 uni.getSystemInfo({
@@ -51,7 +55,7 @@ uni.getSystemInfo({
   } else {
     Vue.prototype.$isWechat = false
   }
-  
+
 // #endif
 
 // #ifdef APP-PLUS

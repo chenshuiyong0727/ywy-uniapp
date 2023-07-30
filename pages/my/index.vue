@@ -1,579 +1,643 @@
-<template>
-  <view>
+<template lang="html">
+  <view class="car2" ref="content" style="height: 100%;font-size: 15px; border-top:0;    overflow: auto;">
+    <u-navbar title="个人中心" >
+      <view @click="$goBack" class="u-nav-slot" slot="left">
+        <image style="width: 23px; height: 23px;"  src="../../static/img/saoyisao4.png"></image>
+      </view>
+      <view @click="comfirm(1)" class="u-nav-slot" slot="right">
+        <image style=" width: 26px;height: 26px;"  src="../../static/img/setting0.png"></image>
+      </view>
+    </u-navbar>
 
-    <nav-bar title='和家健脑' :isShowRightIcon="false" :isShowLeftIcon="false"></nav-bar>
-
-    <view class="container">
-      <view class="top">
-        <view class="user-msg">
-          <view class="left">
-            <image class="tx" :src="userInfo.userId ? imgPrefix + '/static/operateSteps/portalH5/pages/login-default-avatar.png' : imgPrefix + '/static/operateSteps/portalH5/pages/unlogin-default-avatar.png'"></image>
-            <view class="nick-name" v-if="userInfo.userId">{{userName}}</view>
-            <view class="nick-name" @click="naveToPage('/pages/login/index')" v-else>登录/注册</view>
-          </view>
-          <view  v-if="userInfo.userId" class="btn" @click="naveToPageByLogin('/pages/improve-infomation/index')">完善资料</view>
+    <view style="
+        margin-top: 44px;
+        padding-bottom: 35vw;
+        padding-top: 5vw;
+         background-image: linear-gradient(#e5f4ff, #f3f2f8);">
+<!--      <view class="zuoyouduiqi" style="    padding: 2.81vw 4.8vw !important;">-->
+<!--        <view @click="scanCode(1)" >-->
+<!--          <image style="width: 23px; height: 23px;"  src="../../static/img/saoyisao4.png"></image>-->
+<!--        </view>-->
+<!--        <view>-->
+<!--          <text style="font-size: 16px; color: black;" class="mint-header-title">-->
+<!--            个人中心-->
+<!--          </text>-->
+<!--        </view>-->
+<!--        <view @click="comfirm(1)">-->
+<!--          <image style=" width: 26px;height: 26px;"  src="../../static/img/setting0.png"></image>-->
+<!--        </view>-->
+<!--      </view>-->
+      <view class="header zuoyouduiqi">
+        <view @click="userInfo" class="header-icon xianglian" style="margin-left: 6vw;">
+          <image v-if="imgUrl" style="width: 50px;height: 50px;border-radius: 100%;" :src="imgUrl"></image>
+          <text style="margin-left: 12px;">{{
+            form.userRealName ? form.userRealName : form.userAccount ? form.userAccount : '系统用户'
+            }}</text>
+        </view>
+        <view class="my-indent-right" style="margin-right: 6vw;">
+          <u-button type="primary" @click="comfirm(2)"  class="custom-style"  shape="circle"  round>账户管理</u-button>
         </view>
       </view>
-      <view class="common my-order">
-        <view class="title"><text>我的订单</text><text class="title-right" @click="naveToPageByLogin('/pages/order/index')">全部订单</text></view>
-        <view class="list">
-          <view class="item" @click="naveToPageByLogin('/pages/order/index', 10)">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-1.png'"></image>
-            <view>待付款</view>
-            <view :class="['badge', countOrderTap.pendingPayment > 99 ? 'badge-larger' : '']" v-if="countOrderTap.pendingPayment">{{countOrderTap.pendingPayment > 99 ? '99+' : countOrderTap.pendingPayment}}</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/order/index', 20)">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-2.png'"></image>
-            <view>待使用</view>
-            <view :class="['badge', countOrderTap.tobeUsed > 99 ? 'badge-larger' : '']" v-if="countOrderTap.tobeUsed">{{countOrderTap.tobeUsed > 99 ? '99+' : countOrderTap.tobeUsed}}</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/order/index', 30)">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-3.png'"></image>
-            <view>进行中</view>
-            <view :class="['badge', countOrderTap.inProgress > 99 ? 'badge-larger' : '']" v-if="countOrderTap.inProgress">{{countOrderTap.inProgress > 99 ? '99+' : countOrderTap.inProgress}}</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/order/index', 60)">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-4.png'"></image>
-            <view>平板寄还</view>
-            <view :class="['badge', countOrderTap.tabletReturn > 99 ? 'badge-larger' : '']" v-if="countOrderTap.tabletReturn">{{countOrderTap.tabletReturn > 99 ? '99+' : countOrderTap.tabletReturn}}</view>
-          </view>
-        </view>
-      </view>
-      <view class="common usage-record">
-        <view class="title">使用记录</view>
-        <view class="list">
-          <view class="item" @click="naveToPageByLogin('/pages/my/intelligence-evaluation-order')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-10.png'"></image>
-            <view>认知筛查</view>
-            <view :class="['badge', orderNum.screeningNum > 99 ? 'badge-larger' : '']" v-if="orderNum.screeningNum">{{orderNum.screeningNum > 99 ? '99+' : orderNum.screeningNum}}</view>
-          </view>
-          <view class="item" @click="goAppointmentDetail(2)">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-11.png'"></image>
-            <view>认知评估</view>
-            <view :class="['badge', orderNum.assessmentNum > 99 ? 'badge-larger' : '']" v-if="orderNum.assessmentNum">{{orderNum.assessmentNum > 99 ? '99+' : orderNum.assessmentNum}}</view>
-          </view>
-          <view class="item" @click="goAppointmentDetail(1)">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-12.png'"></image>
-            <view>咨询专家</view>
-            <view :class="['badge', orderNum.consultingNum > 99 ? 'badge-larger' : '']" v-if="orderNum.consultingNum">{{orderNum.consultingNum > 99 ? '99+' : orderNum.consultingNum}}</view>
-          </view>
-          <view class="item" @click="goCognitiveTraining">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-13.png'"></image>
-            <view>数字疗法</view>
-            <view :class="['badge', orderNum.trainNum > 99 ? 'badge-larger' : '']" v-if="orderNum.trainNum">{{orderNum.trainNum > 99 ? '99+' : orderNum.trainNum}}</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/my/exercise-order')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-14.png'"></image>
-            <view>趣味健脑</view>
-          </view>
-          <view class="item"  @click="naveToPageByLogin('/pages/my/micromotion-order')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-15.png'"></image>
-            <view>健脑运动</view>
-          </view>
-        </view>
-      </view>
-      <view class="common my-service">
-        <view class="title">我的服务</view>
-        <view class="list">
-          <view class="item" @click="showKfCode">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-5.png'"></image>
-            <view>联系客服</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/feedback/index')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-6.png'"></image>
-            <view>意见反馈</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/verify-code/index')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-7.png'"></image>
-            <view>企业认证</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/order/address-manage')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-8.png'"></image>
-            <view>地址管理</view>
-          </view>
-          <view class="item" @click="naveToPageByLogin('/pages/account-setting/index')">
-            <image :src="imgPrefix + '/static/operateSteps/portalH5/pages/icon-my-9.png'"></image>
-            <view>账号设置</view>
-          </view>
-
-        </view>
-      </view>
-      <view style="padding-bottom: 50rpx;">
-        <input style="background-color: #fff; height: 70rpx; width: 80%;" maxlength="11" v-model="phonetest" type="text" />
-        <view style="display: flex; margin-top: 20rpx;">
-          <view style="padding-right: 50rpx;" @click="goEval('/pages/evaluation/explain')">跳转说明页</view>
-          <view @click="goEval('/pages/my/intelligence-evaluation-order')">跳转列表页</view>
-        </view>
-      </view>
-
     </view>
-    <kf-code v-if="isShowKfCode" @closeKfHandle="closeKfHandle" ewmName="wd-lxkf"></kf-code>
+
+
+    <view class="main" :style="!flag? 'margin-top: -138px;': ''">
+      <view class="my-indent" style="    margin-bottom: -10px;" :to="{ name: '订单'}">
+        <text class="my-indent-left">订单</text>
+        <view class="my-indent-right">
+          <text style="font-weight: 500">全部</text>
+          <image class="my-indent-img" src="../../static/img/more.png"></image>
+        </view>
+      </view>
+
+      <view class="my-pay">
+        <view :to="{ path: '/order?status=3'}">
+          <image
+              :class="orderIofo.count3 > 0 ? 'count3' : ''"
+              src="../../static/img/new/daifahuo.png"></image>
+          <i v-if="orderIofo.count3" class="danger-num">{{orderIofo.count3}}</i>
+          <p style="color: #333">待发货</p>
+        </view>
+        <view :to="{ path: '/order?status=4'}">
+          <!--                  <text class="icon2-thecar"></text>-->
+          <image
+              :class="orderIofo.count4 > 0 ? 'count3' : ''"
+              src="../../static/img/new/fahuo.png"></image>
+          <i v-if="orderIofo.count4" style="margin-left: -14px" class="danger-num">{{orderIofo.count4}}</i>
+          <p style="color: #333">已发货</p>
+        </view>
+
+          <view :to="{ path: '/order?status=5'}">
+            <!--                  <span class="icon2-thecar"></span>-->
+            <image
+                :class="orderIofo.count5 > 0 ? 'count3' : ''"
+                src="../../static/img/new/yilanjian.png"></image>
+            <i v-if="orderIofo.count5"  class="danger-num">{{orderIofo.count5}}</i>
+            <p style="color: #333">运输中</p>
+          </view>
+
+        <view :to="{ path: '/order?status=6'}">
+          <image
+              :class="orderIofo.count6 > 0 ? 'count3' : ''"
+              src="../../static/img/new/yishouhuo.png"></image>
+          <i v-if="orderIofo.count6"  class="danger-num">{{orderIofo.count6}}</i>
+          <p style="color: #333">已收货</p>
+        </view>
+
+      </view>
+
+      <view class="my-indent" style="    margin-bottom: -10px;"  @click="putin">
+        <text class="my-indent-left">报表</text>
+      </view>
+      <view class="my-settle1" style="margin-top: 0;border-top-style:none">
+        <view  @click="putin" class="my-settle1-top">
+          <view>
+            <image style="width: 27px;height: 27px;" src="../../static/img/new/ruku.png"></image>
+          </view>
+
+          <p>
+            <text style="color: #333">入库报表</text>
+            <image class="my-indent-img-1" src="../../static/img/more.png"></image>
+          </p>
+        </view>
+        <view :to="{ name: '入库渠道报表'}" class="my-settle1-top">
+          <view>
+            <image style="width: 27px;height: 27px;"
+                 src="../../static/img/new/qudao.png"></image>
+          </view>
+
+          <p>
+            <text style="color: #333">入库渠道报表</text>
+            <image class="my-indent-img-1" src="../../static/img/more.png"></image>
+          </p>
+        </view>
+        <view :to="{ name: '销售报表'}" class="my-settle1-bottom">
+          <view>
+            <image style="width: 27px;height: 27px;"
+                 src="../../static/img/new/xiaoshou.png"></image>
+          </view>
+          <p>
+            <text style="color: #333">销售报表</text>
+            <image class="my-indent-img-1" src="../../static/img/more.png"></image>
+          </p>
+        </view>
+        <view :to="{ name: '区域销售报表'}" class="my-settle1-bottom">
+          <view>
+            <image style="width: 27px;height: 27px;" src="../../static/img/new/quyu.png"></image>
+          </view>
+          <p>
+            <text style="color: #333">区域销售报表</text>
+            <image class="my-indent-img-1" src="../../static/img/more.png"></image>
+          </p>
+        </view>
+      </view>
+      <view class="my-indent" style="    margin-bottom: -10px;">
+        <text class="my-indent-left">服务</text>
+        <!--        <view class="my-indent-right">-->
+        <!--          <text>全部订单</text>-->
+        <!--          <i class="icon-go"></i>-->
+        <!--        </view>-->
+      </view>
+      <view class="my-pay-1" style="border-bottom-style:none;">
+        <view :to="{ name: '活动'}">
+          <!--                  <text class="icon2-money"></text>-->
+          <image
+              style="margin-top: 7px;margin-bottom: -4px;width: 27px;height: 27px;"
+              src="../../static/img/new/huodong.png"></image>
+          <p style="color: #333">活动</p>
+        </view>
+        <view @click="$navigateTo('/pages/other/index')">
+          <!--                  <text class="icon2-thecar"></text>-->
+          <image
+              style="margin-top: 7px;margin-bottom: -4px;width: 27px;height: 27px;"
+              src="../../static/img/new/qita.png"></image>
+          <p style="color: #333">其他收支</p>
+        </view>
+<!--        <view :to="{ name: '瑕疵商品'}">-->
+<!--          &lt;!&ndash;                  <text class="icon2-thecar"></text>&ndash;&gt;-->
+<!--          <image-->
+<!--              style="    margin-top: 4px;-->
+<!--    width: 27px;height: 27px;" src="../../static/img/new/xiaci.png"></image>-->
+<!--          <p style="color: #333">瑕疵商品</p>-->
+<!--        </view>-->
+        <view :to="{ name: '瑕疵商品'}">
+          <image
+              style="margin-top: 7px;margin-bottom: -4px;width: 27px;height: 27px;"
+              src="../../static/img/new/xiaci.png"></image>
+          <p style="color: #333">瑕疵商品</p>
+        </view>
+        <view :to="{ name: '红包'}">
+          <image
+              style="margin-top: 7px;margin-bottom: -4px;width: 27px;height: 27px;"
+              src="../../static/img/new/hongbao.png"></image>
+          <p style="color: #333">红包</p>
+        </view>
+      </view>
+      <view class="my-pay-1" style="padding-bottom: 5vw">
+        <view :to="{ path: '/memo'}" style="width: 25%">
+          <image
+              style="margin-top: 7px;margin-bottom: -4px;width: 27px;height: 27px;"
+              src="../../static/img/new/memo.png"></image>
+          <p style="color: #333">备忘录</p>
+        </view>
+      </view>
+    </view>
+    <!--    <view style=" padding-top: 1px;"></view>-->
+    <!-- <v-footer></v-footer> -->
   </view>
-
-
 </template>
 
 <script>
-  import navBar from '@/components/nav-bar'
-  import kfCode from '@/components/kf-code'
-  import { navigateTo, getUserInfoGlobal } from '../../utils/util'
+  // import * as mockData from '@/http/mock.js' //模拟数据
+  // import {goodsBaseApi} from '@/api/goodsBase'
+  // import {goodsOrderApi} from '@/api/goodsOrder'
+  // import Footer from '@/common/_footer.vue'
+  // import {userContainerApi} from '@/api/user'
+
   export default {
     components: {
-      navBar,
-      kfCode
+      // 'v-footer': Footer
     },
     data() {
       return {
-        userInfo: {},
-        isPad: this.$pad,
-        imgPrefix: this.$imgPrefix,
-        isShowKfCode: false,
-        orderNum: {},
-        countOrderTap: {},
-        phonetest: '',
-        userName: ''
+        flag: false,
+        imgUrl: '',
+        fileUrl: this.$fileUrl,
+        orderIofo: {},
+        // userName: localStorage.getItem('user_name'),
+        // userRealName: localStorage.getItem('userRealName')
+        form: {
+          userAccount: '',
+          userMobile: '',
+          userRealName: '',
+          imgUrl: ''
+        }
       }
     },
-    onShow() {
-      this.userInfo = uni.getStorageSync('userInfo') ? JSON.parse(uni.getStorageSync('userInfo')) : {}
-      if (this.userInfo && this.userInfo.token) {
-        let tel = this.userInfo.info.userMobile.substring(0, 3) + '****' + this.userInfo.info.userMobile.substring(this.userInfo.info.userMobile.length - 4)
-        this.userName = this.userInfo.info.userRealName ? this.userInfo.info.userRealName : tel
-        this.queryMyOrderNum()
-      } else {
-        this.orderNum = {}
-        this.countOrderTap = {}
+    // mounted(){
+    //   this.$refs.content.onscroll = ()=>{
+    //     this.handleScroll();
+    //   }
+    // },
+    onLoad(options) {
+      if (options && options.userRealName) {
+        this.form.userRealName = options.userRealName
       }
-
-			//this.handleUserInfo()
     },
-    methods: {
-      goEval(path) {
-        this.$request({
-          url: '/gw/h5/v1/front/test/getThirdloginByPhone',
-          method: 'get',
-          data: {
-            phone: this.phonetest
-          }
-        }).then(res => {
-          navigateTo(`${path}?thirdToken=${res.data}`)
-        })
+    created() {
+      this.getUcUser()
+      this.getData()
+    },
+    // onLoad() {
+    //   console.log('页面加载')
+    // },
+    // onShow() {
+    //   console.log('页面显示')
+    //   this.getUcUser()
+    //   this.getData()
+    // },
+    // onReady(){
+    //   console.log('页面初次显示')
+    // },
+    // onHide() {
+    //   console.log('页面隐藏')
+    // },
+    // onUnload() {
+    //   // this.getUcUser()
+    //   // this.getData()
+    //   console.log('页面卸载')
+    // },
+    // onBackPress(){
+    //   console.log('页面返回...')
+    // },
+    onPullDownRefresh() {
+      uni.stopPullDownRefresh()
+      this.getUcUser()
+      this.getData()
+    },
+      methods: {
+      // handleScroll () {
+      //   let scrollTop = this.$refs.content.scrollTop;
+      //   console.info(scrollTop)
+      //   if (scrollTop < 10){
+      //     this.flag = false
+      //   } else{
+      //     this.flag = true
+      //   }
+      //   // let blocks = document.querySelectorAll('.conBlock');
+      //   // let tabblocks = document.querySelectorAll('.tab-title');
+      //   // blocks.forEach((item, index) => {
+      //   //   if (scrollTop >= item.offsetTop - 160) {
+      //   //     this.activeId = index;
+      //   //   }
+      //   // })
+      //   // if(tabblocks[this.activeId].offsetLeft > window.innerWidth-50){
+      //   //   this.$refs['tab-content'].scrollLeft = tabblocks[this.activeId].offsetLeft;
+      //   // }
+      //   // if(this.$refs['tab-content'].scrollLeft>tabblocks[this.activeId].offsetLeft){
+      //   //   this.$refs['tab-content'].scrollLeft = 0;
+      //   // }
+      // },
+      userInfo() {
+        this.$navigateTo('/pages/my/userInfo')
+      },
+      putin() {
+        this.$navigateTo('/pages/report/putin')
       },
 
-			// async handleUserInfo () {
-			// 	await getUserInfoGlobal()
-			// 	this.userInfo = uni.getStorageSync('userInfo') ? JSON.parse(uni.getStorageSync('userInfo')) : {}
-			// },
-      queryMyOrderNum() {
-        this.$request({
-          url: '/gw/h5/v1/front/user/queryMyOrderNum',
-          method: 'post',
-          data: {
-            token: this.userInfo.token,
-            userId: this.userInfo.userId
-          }
-        }, false).then(res => {
-          if (res.status === 1000) {
-            this.orderNum = res.data ? res.data : {}
-            console.log(this.orderNum)
+      scanCode(photo) {
+        this.$router.push({ path: '/scanCode', query: { photo } })
+      },
+      comfirm(type) {
+        this.$navigateTo('/pages/login/logout?type='+type)
+        // this.$router.push({path: '/logout', query: {type}})
+      },
+      // syncOldPriceToNew1() {
+      //   this.$request({
+      //     url: '/gw/op/v2/goodsBase/syncOldPriceToNew',
+      //     method: 'post',
+      //     data: loginInfo
+      //   })
+      //   goodsBaseApi.syncOldPriceToNew().then(res => {
+      //     this.$toast(res.subMsg)
+      //   })
+      // },
+      getData() {
+          this.$request({
+            url: '/gw/op/v1/goodsOrder/orderData',
+            method: 'get'
+          }).then(res => {
+          if (res.subCode === 1000) {
+            this.orderIofo = res.data ? res.data.countDto : {}
           } else {
-            uni.showToast({
-              title: res.msg,
-              icon: 'none',
-              duration: 2000
-            })
+            this.$toast(res.subMsg)
           }
         })
+      },
+      getUcUser() {
         this.$request({
-          url: '/gw/h5/v1/front/order/countByOrderTap',
-          method: 'get',
-          data: {
-            token: this.userInfo.token
+          url: '/gw/op/v1/auth/getUcUser',
+          method: 'get'
+        }).then(res => {
+          if (res.subCode === 1000) {
+            this.form = res.data ? res.data : {}
+            if (this.form.imgUrl) {
+              this.imgUrl = this.fileUrl + this.form.imgUrl
+            } else {
+              this.imgUrl = '../../static/img/userimg5.jpg'
+            }
+          } else {
+            this.$toast(res.subMsg)
           }
-        }, false).then(res => {
-          if (res.status === 1000) {
-            this.countOrderTap = res.data ? res.data : {}
-          }
         })
       },
-      naveToPage(url) {
-        // console.log(url)
-        navigateTo(url)
-      },
-      naveToPageByLogin(url, openerOrderTap = '') {
-        // 跳转之前判断是否登录
-        getApp().loginStatus().then(() => {
-          if (openerOrderTap) {
-           uni.setStorageSync('openerOrderTap', openerOrderTap)
-          }
-          navigateTo(url)
-        })
-      },
-      goCognitiveTraining() {
-        let routes = getCurrentPages() //获取加载的页面
-        let curRoute = routes[routes.length - 1].route //获取当前页面的对象
-        let backUrl = encodeURIComponent(`/${curRoute}?pageType=tab`)
-        getApp().goCognitiveTraining({
-          token: this.userInfo.token,
-          backType: 5,
-          isNeedLandscape: 'yes',
-          redirectUrl: backUrl
-        })
-      },
-      goAppointmentDetail(type) {
-        getApp().goAppointmentDetail({
-          token: this.userInfo.token,
-          type,
-          cameraPermission: type == 2 ? true : false
-        })
-      },
-      closeKfHandle() {
-        this.isShowKfCode = false
-      },
-      showKfCode() {
-        this.isShowKfCode = true
-      },
-      goToPage(type) {
-        if (type == 1) {
-          navigateTo('/pages/evaluation/quick-sieve-record')
-        }
-        if (type == 2) {
-          getApp().goAppointmentDetail({
-            token: this.userInfo.token,
-            type: 2,
-            cameraPermission: true
-          })
-        }
-      }
     }
   }
 </script>
 
-<style lang="scss" scoped>
-  .container {
-    width: 750rpx;
-    max-width: 750rpx;
-    margin: 0 auto;
+<style lang="less" scoped>
+  @import '@/assets/fz.less';
+  @import '@/assets/index/style.css';
+
+  * {
+    /*margin: 0;*/
+    /*padding: 0;*/
     box-sizing: border-box;
-    font-size: 22.5rpx;
-    color: #333;
-    padding-bottom: 55rpx;
-
-    .top {
-      height: 203.75rpx;
-      // background: linear-gradient(180deg, #7B3A88 0%, #964DA5 100%);
-      background: url('https://natt.yimed.cn:11902/static/operateSteps/portalH5/pages/my-img-1.png?t=1') no-repeat top center;
-      background-size: 750rpx 203.75rpx;
-      padding: 27.5rpx 28.75rpx 0 28.75rpx;
-      box-sizing: border-box;
-      color: #fff;
-      .user-msg {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .left {
-          display: flex;
-          align-items: center;
-        }
-      }
-
-      .tx {
-        width: 87.5rpx;
-        height: 87.5rpx;
-        border-radius: 50%;
-        margin-right: 17.5rpx;
-      }
-
-      .nick-name {
-        font-size: 32.5rpx;
-        font-weight: bold;
-      }
-      .btn {
-        width: 157.5rpx;
-        height: 61.25rpx;
-        border-radius: 40rpx;
-        background-color: #fff;
-        text-align: center;
-        line-height: 61.25rpx;
-        font-size: 22.5rpx;
-        color: #30B08F;
-      }
-    }
-
-    .common {
-      width: 718.75rpx;
-      box-sizing: border-box;
-      padding: 17.5rpx 17.5rpx 40rpx 17.5rpx;
-      margin: 0 auto 13.75rpx auto;
-      background-color: #fff;
-      border-radius: 12.5rpx;
-      .title {
-        font-size: 20rpx;
-        color: #474747;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        // padding-bottom: 12.5rpx;
-        .title-right {
-          font-weight: 400;
-          position: relative;
-          padding-right: 20rpx;
-          color: #666;
-          &::after {
-            content: '';
-            width: 10rpx;
-            height: 10rpx;
-            border-top: 2px solid #999;
-            border-right: 2px solid #999;
-            position: absolute;
-            top: 7rpx;
-            right: 0;
-            transform: rotate(45deg);
-
-          }
-        }
-      }
-      .list {
-        display: flex;
-        flex-wrap: wrap;
-        font-size: 22.5rpx;
-        color: #474747;
-        padding: 0 21.97rpx;
-        margin-top: -25rpx;
-        .item {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          margin-right: 65rpx;
-          z-index: 9;
-          // margin-top: 25.63rpx;
-          margin-top: 57.5rpx;
-          min-width: 109.89rpx;
-          image {
-            width: 53.75rpx;
-            height: 53.75rpx;
-            margin-bottom: 13.75rpx;
-          }
-          .badge {
-            width: 32.5rpx;
-            height: 20rpx;
-            display: inline-block;
-            text-align: center;
-            height: 20rpx;
-            line-height: 20rpx;
-            color: #fff;
-            background-color: #FC6666;
-            font-size: 15rpx;
-            position: absolute;
-            top: -7rpx;
-            right: 0;
-            border-radius: 12.5rpx;
-          }
-          .badge-larger {
-            width: 35rpx;
-          }
-        }
-        .item:nth-child(4n) {
-          margin-right: 0;
-        }
-      }
-    }
-    .my-order {
-      margin-top: -65rpx;
-    }
-    .my-service {
-      .list {
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        .item {
-          margin-right: 0rpx;
-        }
-      }
-    }
-
   }
-  @media screen and (max-width: 500px) {
-    .container {
-      width: 750rpx;
-      max-width: 750rpx;
-      padding-bottom: 100rpx;
-      .top {
-        height: 220rpx;
-        padding: 42rpx 26rpx;
-        background: linear-gradient(180deg, #32BD9A 0%, #43C9A7 100%);
-        .tx {
-          width: 124rpx;
-          height: 124rpx;
-          margin-right: 28rpx;
+
+  /* 这里直接设置 1rem = 50px begin */
+  html {
+    font-size: 10px;
+  }
+
+  /* 这里直接设置 1rem = 50px end */
+  html,
+  body {
+    /*font-family: "微软雅黑";*/
+    /*color: #333;*/
+    /*background: #fff;*/
+    background-color: #f3f2f8;
+  }
+
+  .car2 {
+    width: 100%;
+    /*padding-bottom: 14vw;*/
+    background-color: #f3f2f8;
+    border-top: 1vw solid #eee;
+
+    .header {
+      width: 100%;
+      height:100px;
+      /*background: url(../../static/carbg.png) center 0 #f37d0f;*/
+      /*background: url(../../static/img/bg1.png) center 0 #f37d0f;*/
+      background-size: auto 100%;
+      padding: 3.2vw 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+
+      .header-icon {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 15px;
+      }
+
+      > text {
+        margin-left: 3.2vw;
+        .fz(font-size, 30);
+        color: #333;
+        letter-spacing: .2vw;
+        width: 50vw;
+      }
+    }
+
+    .main {
+      width: 92vw;
+      margin-left: 4vw;
+      /*height: 100%;*/
+      margin-bottom: 50px;
+      background-color: #f3f2f8;
+
+      .my-indent {
+        width: 100%;
+        display: block;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        color: #333;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0 5vw;
+        height: 15vw;
+        line-height: 15vw;
+        background-color: #fff;
+        margin-top: 10px;
+        font-weight: 600;
+        //.bd();
+
+        &:active {
+          background-color: rgb(224, 227, 230)
         }
 
-        .nick-name {
-          font-size: 34rpx;
-        }
-        .btn {
-          width: 192rpx;
-          height: 84rpx;
-          border-radius: 42rpx;
-          line-height: 84rpx;
-          font-size: 28rpx;
-        }
-      }
-      .common {
-        width: 698rpx;
-        padding: 32rpx 24rpx 46rpx 24rpx;
-        margin: 0 auto 20rpx auto;
-        border-radius: 20rpx;
-        .title {
-          font-size: 32rpx;
-          padding-bottom: 0rpx;
-          .title-right {
-            padding-right: 30rpx;
-            &::after {
-              content: '';
-              width: 15rpx;
-              height: 15rpx;
-              top: 13rpx;
-            }
+        .my-indent-right {
+          text {
+            display: inline-block;
+            .fz(font-size, 28);
+            color: rgba(0, 0, 0, .4);
+            position: relative;
           }
-        }
-        .list {
-          font-size: 32rpx;
-          padding: 0 0rpx;
-          margin-top: 0;
-          .item {
-            margin-right: 90rpx;
-            margin-top: 48rpx;
-            min-width: 110rpx;
-            image {
-              width: 80rpx;
-              height: 80rpx;
-              margin-bottom: 10rpx;
-            }
-            .badge {
-              // padding: 2rpx 15rpx;
-              // height: 28rpx;
-              // line-height: 28rpx;
-              // font-size: 22rpx;
-              // position: absolute;
-              top: -7rpx;
-              right: 0;
-              width: 42rpx;
-              height: 28rpx;
-              // border-radius: 20rpx;
-              // padding: 2rpx 16rpx;
-              font-size: 22rpx;
-              font-weight: 600;
-              line-height: 28rpx;
-              border-radius: 22rpx;
-              height: auto;
-              // top: 50%;
-              // transform: translateY(-50%);
-              // right: 30rpx;
-              text-align: center;
-            }
-            .badge-larger {
-              // padding: 2rpx 6rpx 2rpx 10rpx;
-              width: 56rpx;
-            }
-          }
-          .item:nth-child(4n) {
-            margin-right: 0;
+
+          i {
+            position: relative;
+            top: .8vw;
           }
         }
       }
-      .my-order {
-        margin-top: 20rpx;
-        .list {
+
+      .my-pay {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        padding: 2vw 0;
+        background-color: #fff;
+        .bd();
+
+        > view {
+          display: block;
+          width: 33.33%;
+          color: #999;
+          text-align: center;
+
+          > text {
+            .fz(font-size, 50);
+            margin-top: 2.3vw;
+            display: block;
+            text-align: center;
+          }
+
+          p {
+            padding-top: 22px;
+            text-align: center;
+            padding-bottom: 10px;
+          }
+          image {
+            margin-top: 10px;
+            margin-bottom: -20px;
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+
+      .my-vip, .my-service, .my-settle1 {
+        width: 100%;
+        .mt();
+        .bd();
+        .bt();
+        color: #333;
+
+        > view {
+          background-color: #fff;
+          display: block;
+          width: 100%;
+          display: -ms-flex;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          height: 15vw;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
-          margin-top: -20rpx;
-          .item {
-            margin-right: 0rpx;
+          padding: 0 6vw;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+
+          &:active {
+            background-color: rgb(224, 227, 230);
           }
-        }
-      }
-      .usage-record {
-        .list {
-          margin-left: 28rpx;
-          .item {
-            margin-right: 104rpx;
+
+          > view {
+            -ms-flex: 2;
+            -webkit-box-flex: 2;
+            flex: 2;
+            padding-top: 1.3vw;
           }
-          .item:nth-child(3n) {
-            margin-right: 0;
+
+          .my-vip-top-view {
+            padding-top: 0;
           }
-          .item:nth-child(4n) {
-            margin-right: 104rpx;
-          }
-        }
-      }
-      .my-service {
-        width: 698rpx;
-        padding: 32rpx 24rpx 14rpx 24rpx;
-        margin: 0 auto 20rpx auto;
-        border-radius: 20rpx;
-        .title {
-          font-size: 30rpx;
-          margin-bottom: 6rpx;
-        }
-        .list {
-          font-size: 32rpx;
-          padding: 0 0rpx;
-          flex-direction: column;
-          .item {
-            margin-right: 0rpx;
-            margin-top: 0rpx;
-            min-width: 110rpx;
-            flex-direction: row;
-            justify-content: flex-start;
-            padding: 20rpx 0;
-            image {
-              width: 80rpx;
-              height: 80rpx;
-              margin-bottom: 0rpx;
-              margin-right: 30rpx;
+
+          > p {
+            -ms-flex: 10;
+            -webkit-box-flex: 10;
+            flex: 10;
+            position: relative;
+
+            &:active {
+              background-color: rgb(224, 227, 230);
             }
-            &>view {
-              flex: 1;
-            }
-            // .badge {
-            //   padding: 2rpx 16rpx;
-            //   font-size: 22rpx;
-            //   font-weight: 600;
-            //   line-height: 24rpx;
-            //   border-radius: 22rpx;
-            //   top: 50%;
-            //   transform: translateY(-50%);
-            //   right: 30rpx;
-            //   text-align: left;
-            // }
-            // .badge-larger {
-            //   padding: 2rpx 6rpx 2rpx 10rpx;
-            // }
-            &::after {
-              content: '';
-              width: 15rpx;
-              height: 15rpx;
-              border-top: 1px solid #C9C9C9;
-              border-right: 1px solid #C9C9C9;
+
+            i {
               position: absolute;
               right: 0;
-              top: 50%;
-              transform: translateY(-50%) rotate(45deg);
+              top: .4vw;
             }
           }
-          .item:nth-child(4n) {
-            margin-right: 0;
-          }
         }
-      }
 
+      }
     }
   }
-  @media screen and (width: 360px) and (height: 729px) {
-    .container {
-      padding-bottom: 180rpx;
+
+  /*图标大小不一，重新定义*/
+
+  .icon-go {
+    .fz(font-size, 36);
+
+    &::before {
+      color: #aba8a8;
     }
+  }
+
+  [class^="icon2-"],
+  [class*=" icon2-"] {
+    .fz(font-size, 50);
+  }
+
+  .icon2-service {
+    .fz(font-size, 34);
+  }
+
+  .danger-num {
+    padding: 0px 6px;
+    min-width: 11px;
+    text-align: center;
+    height: 12px;
+    line-height: 12px;
+    color: #fff;
+    background-color: #409eff;
+    font-size: 12px;
+    top: 0;
+    right: 0;
+    border-radius: 8px;
+    margin-left: -8px;
+    position: sticky;
+    font-style: normal;
+  }
+
+  .count3 {
+    margin-left: 12px;
+  }
+
+  /*.count4 {*/
+  /*  margin-left: 12px;*/
+  /*}*/
+
+  /*.count5 {*/
+  /*  margin-left: 10px;*/
+  /*}*/
+
+  /*.count6 {*/
+  /*  margin-left: 10px;*/
+  /*}*/
+  .my-pay-1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    padding: 2vw 0;
+    background-color: #fff;
+    .bd();
+
+    > view {
+      display: block;
+      width: 33.33%;
+      color: #999;
+      text-align: center;
+
+      > text {
+        .fz(font-size, 50);
+        margin-top: 2.3vw;
+        display: block;
+        text-align: center;
+      }
+
+      p {
+        padding-top: 1.3vw;
+        text-align: center;
+      }
+    }
+  }
+  .my-indent-img{
+    width: 13px;
+    height: 13px;
+    margin-left: 4px;
+    margin-bottom: -1px;
+  }
+  .my-indent-img-1{
+    width: 13px;
+    height: 13px;
+    margin-left: 4px;
+    margin-bottom: -1px;
+    position: absolute;
+    right: 0;
+    top: 0.4vw;
+  }
+  .custom-style {
+    width: 86px;
+    font-size: 12px;
+    height: 32px;
   }
 </style>

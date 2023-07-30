@@ -1,7 +1,12 @@
 {
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "pinyin-pro": "^3.13.0",
+    "uview-ui": "^1.8.8",
     "vconsole": "^3.14.7",
     "weixin-js-sdk": "^1.6.0"
+  },
+  "devDependencies": {
+    "sass-loader": "^13.3.2"
   }
 }

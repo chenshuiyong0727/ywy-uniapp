@@ -12,21 +12,23 @@ const downAppLink = {
 }
 
 const baseUrl = {
-	test: 'https://natt.yimed.cn:11900',
-	prod: 'https://www.hj-health.cn'
+	test: 'http://192.168.43.245:28027',
+	// test: 'http://192.168.1.125:28027',
+	prod: 'http://114.132.243.79:28027'
 }
 
 const imgHost = {
-  test: 'https://natt.yimed.cn:11902',
-  prod: 'https://hjom-oss.hj-health.cn'
+  test: 'http://114.132.243.79:9000',
+  prod: 'http://114.132.243.79:9000'
 }
 
 // const env = process.env.NODE_ENV === 'production' ? 'prod' : 'test'
 const env = 'test'
+// const env = 'test'
 
 export const envSetting = {
   baseURL: baseUrl[env],
-	imgPrefix: imgHost[env],
+  fileUrl: imgHost[env],
   domainName: domainName[env],
   downAppLink: downAppLink[env]
 }

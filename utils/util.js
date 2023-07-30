@@ -57,7 +57,15 @@ const isTokenExpire = (time) => {
   }
   return 3
 }
-
+const toast = (title) => {
+  uni.showToast({
+    title: title,
+    icon: 'none'
+  })
+}
+const goBack = () => {
+  uni.navigateBack()
+}
 /**
  * @descripting 轮询管理器功能
  * @param {Function} callback 轮询方法
@@ -114,7 +122,7 @@ const encrypt = (word, secret_key) => {
  * @param {String} time 参数名
  */
 const formatTime = (time)=>{
-  
+
 	const nDate = new Date(time.replace(/-/g,"/"))
 	const year = nDate.getFullYear().toString().padStart(2, 0)
 	const month = (nDate.getMonth() +1 ).toString().padStart(2, 0)
@@ -170,7 +178,7 @@ const debounce = (fn, wait, immediate = false) => {
     const args = arguments
     // 如果是立即执行
     if (immediate) {
-      // 第一次直接执行不用等 
+      // 第一次直接执行不用等
       if (count == 0) {
         fn.apply(_this, args)
         count ++
@@ -182,7 +190,7 @@ const debounce = (fn, wait, immediate = false) => {
           fn.apply(_this, args)
         }, delay)
       }
-    //   
+    //
     } else {
       if (timer) {
         clearTimeout(timer)
@@ -234,5 +242,7 @@ module.exports = {
 	getUserInfoGlobal,
   isTimeExpire,
   throttle,
+  toast,
+  goBack,
   debounce
 }
